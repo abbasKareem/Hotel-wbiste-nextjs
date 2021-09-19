@@ -36,4 +36,15 @@ const registerUser = catchAsyncErrors(async (req, res) => {
   });
 });
 
-export { registerUser };
+// 2======================================================================================
+// Current user profile ==> /api/me
+const currentUserProfile = catchAsyncErrors(async (req, res) => {
+  const user = await User.findById(req.user._id);
+
+  res.status(200).json({
+    success: true,
+    user,
+  });
+});
+
+export { registerUser, currentUserProfile };

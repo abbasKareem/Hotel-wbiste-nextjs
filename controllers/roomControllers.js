@@ -19,7 +19,6 @@ const allRooms = catchAsyncErrors(async (req, res) => {
 
   // ---------------First Condiniton------------
   if (req.query.category) {
-    console.log("in first condintion");
     const roomsCount = await Room.countDocuments();
     rooms = await Room.find({
       $and: [{ ...location }, { category: req.query.category }],
@@ -37,7 +36,6 @@ const allRooms = catchAsyncErrors(async (req, res) => {
 
     // ---------------Second Condiniton------------
   } else if (req.query.category && req.query.location === "") {
-    console.log("in Second condintion");
     const roomsCount = await Room.countDocuments();
     rooms = await Room.find({ category: req.query.category })
       .limit(pageSize)
@@ -54,8 +52,6 @@ const allRooms = catchAsyncErrors(async (req, res) => {
 
   // ---------------Third Condiniton------------
   else {
-    console.log(typeof req.query.location);
-    console.log("in Third condintion");
     const roomsCount = await Room.countDocuments();
     rooms = await Room.find({ ...location })
       .limit(pageSize)

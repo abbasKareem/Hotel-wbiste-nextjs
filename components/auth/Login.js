@@ -30,23 +30,23 @@ const Login = () => {
   };
 
   return (
-    <div class="container container-fluid">
-      <div class="row wrapper">
-        <div class="col-10 col-lg-5">
-          <form class="shadow-lg" onSubmit={submitHandler}>
-            <h1 class="mb-3">Login</h1>
-            <div class="form-group">
+    <div className="container container-fluid">
+      <div className="row wrapper">
+        <div className="col-10 col-lg-5">
+          <form className="shadow-lg" onSubmit={submitHandler}>
+            <h1 className="mb-3">Login</h1>
+            <div className="form-group">
               <label htmlFor="email_field">Email</label>
               <input
                 type="email"
                 id="email_field"
-                class="form-control"
+                className="form-control"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
 
-            <div class="form-group">
+            <div className="form-group">
               <label htmlFor="password_field">Password</label>
               <input
                 type="password"
@@ -57,20 +57,20 @@ const Login = () => {
               />
             </div>
 
-            <a href="#" class="float-right mb-4">
+            <a href="#" className="float-right mb-4">
               Forgot Password?
             </a>
 
             <button
               id="login_button"
               type="submit"
-              class="btn btn-block py-3"
+              className="btn btn-block py-3"
               disabled={loading ? true : false}
             >
               {loading ? <ButtonLoader /> : "LOGIN"}
             </button>
 
-            <a href="/register" class="float-right mt-3">
+            <a href="/register" className="float-right mt-3">
               New User?
             </a>
           </form>
