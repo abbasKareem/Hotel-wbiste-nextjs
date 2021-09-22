@@ -60,7 +60,7 @@ const Header = () => {
                   <a className="dropdown-item">My Booking</a>
                 </Link>
                 <Link href="/me/update">
-                  <a className="dropdown-item">Prifile</a>
+                  <a className="dropdown-item">Profile</a>
                 </Link>
                 <Link href="/">
                   <a

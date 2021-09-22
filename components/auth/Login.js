@@ -51,7 +51,7 @@ const Login = () => {
               <input
                 type="password"
                 id="password_field"
-                class="form-control"
+                className="form-control"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
