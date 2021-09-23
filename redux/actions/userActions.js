@@ -11,6 +11,12 @@ import {
   UPDATE_PROFILE_FAIL,
   UPDATE_PROFILE_REQUEST,
   UPDATE_PROFILE_SUCCESS,
+  FORGOT_PASSWORD_FAIL,
+  FORGOT_PASSWORD_SUCCESS,
+  FORGOT_PASSWORD_REQUEST,
+  RESET_PASSWORD_FAIL,
+  RESET_PASSWORD_REQUEST,
+  RESET_PASSWORD_SUCCESS,
 } from "../constants/userConstants";
 
 // ==============================================================
@@ -70,6 +76,7 @@ export const clearErrors = () => async (dispatch) => {
     type: CLEAR_ERRORS,
   });
 };
+
 // ==============================================================
 //  Update Prifile
 export const updateProfile = (userData) => async (dispatch) => {
@@ -93,6 +100,66 @@ export const updateProfile = (userData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: UPDATE_PROFILE_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+// ==============================================================
+// Forgot Password action
+export const forgotPassword = (email) => async (dispatch) => {
+  console.log(email);
+  try {
+    console.log("in try block");
+    dispatch({ type: FORGOT_PASSWORD_REQUEST });
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const { data } = await axios.post("/api/password/forgot", email, config);
+
+    dispatch({
+      type: FORGOT_PASSWORD_SUCCESS,
+      payload: data.message,
+    });
+  } catch (error) {
+    console.log("in error catch");
+    dispatch({
+      type: FORGOT_PASSWORD_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+// ==============================================================
+
+// Reset Password action
+export const resetPassword = (token, passwords) => async (dispatch) => {
+  try {
+    dispatch({ type: RESET_PASSWORD_REQUEST });
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const { data } = await axios.put(
+      `/api/password/reset/${token}`,
+      passwords,
+      config
+    );
+
+    dispatch({
+      type: RESET_PASSWORD_SUCCESS,
+      payload: data.success,
+    });
+  } catch (error) {
+    dispatch({
+      type: RESET_PASSWORD_FAIL,
       payload: error.response.data.message,
     });
   }
