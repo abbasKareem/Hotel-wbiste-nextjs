@@ -14,6 +14,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { clearErrors } from "../../redux/actions/roomActions";
 
+import { checkBooking } from "../../redux/actions/bookingAction";
+import { CHECK_BOOKING_REQUEST } from "../../redux/constants/bookingConstants";
+
 import axios from "axios";
 
 const RoomDetails = () => {
@@ -26,6 +29,11 @@ const RoomDetails = () => {
   const dispatch = useDispatch();
 
   const { room, error } = useSelector((state) => state.roomDetails);
+  const { user } = useSelector((state) => state.loadedUser);
+
+  const { avalibale, loading: bookingLoading } = useSelector(
+    (state) => state.checkBooking
+  );
 
   useEffect(() => {
     if (error) {
@@ -46,8 +54,14 @@ const RoomDetails = () => {
       );
 
       setDaysOfStays(days);
+
+      dispatch(
+        checkBooking(id, checkInDate.toISOString(), checkOutDate.toISOString())
+      );
     }
   };
+
+  const { id } = router.query;
 
   const newBookingHandler = async () => {
     const bookingData = {
@@ -133,16 +147,37 @@ const RoomDetails = () => {
                 onChange={onChange}
                 startDate={checkInDate}
                 endDate={checkOutDate}
+                minDate={new Date()}
                 selectsRange
                 inline
               />
 
-              <button
-                className="btn btn-block py-3 booking-btn"
-                onClick={newBookingHandler}
-              >
-                Pay
-              </button>
+              {avalibale === true && (
+                <div className="alert alert-success my-3 font-weight-bold">
+                  Room is avalibale. Book now
+                </div>
+              )}
+
+              {avalibale === false && (
+                <div className="alert alert-danger my-3 font-weight-bold">
+                  Room is avalibale. Try different dates
+                </div>
+              )}
+
+              {avalibale && !user && (
+                <div className="alert alert-danger my-3 font-weight-bold">
+                  Login to book room.
+                </div>
+              )}
+
+              {avalibale && user && (
+                <button
+                  className="btn btn-block py-3 booking-btn"
+                  onClick={newBookingHandler}
+                >
+                  Pay
+                </button>
+              )}
             </div>
           </div>
         </div>
